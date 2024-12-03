@@ -1,8 +1,9 @@
 # NOTA
-Terminal Task manager Inspured by [tore](https://github.com/rexim/tore)
+Terminal Task manager Inspured by [tore](https://github.com/rexim/tore) written in Go
 
 # Download
 [download nota](https://github.com/mikemasam/nota/blob/master/nota)
+
 [https://github.com/mikemasam/nota/blob/master/nota](https://github.com/mikemasam/nota/blob/master/nota)
 
 # Build & install
@@ -25,4 +26,7 @@ nota del [index1,index2,index3] ~ remove note
 
 # Other
 [Author](https://github.com/mikemasam)
+
 [Homepage](https://github.com/mikemasam/nota)
+
+

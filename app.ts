@@ -76,8 +76,12 @@ if (action == "add" || action == "a" || action == "r") {
 } else if (action == "print" || action == "show") {
   const cond = args.shift();
   await printState(cond);
+} else if (action == "version" || action == "v") {
+  console.log(`${Bun.color("grey", "ansi")}version: v0.0.1`);
+  console.log(`${Bun.color("grey", "ansi")}webpage: https://github.com/mikemasam/nota`);
 } else if (action == "help") {
-  console.log(`${Bun.color("grey", "ansi")}help: https://github.com/mikemasam/nota`);
+  console.log(`${Bun.color("grey", "ansi")}version: v0.0.1`);
+  console.log(`${Bun.color("grey", "ansi")}webpage: https://github.com/mikemasam/nota`);
   console.log(`${Bun.color("grey", "ansi")}\t$ datetime formats: [2024-12-10+11:46/today/tomorrow+morning/1week/+2weeks]`);
   console.log(`${Bun.color("grey", "ansi")}\t$ nota add/a/r tag title datetime ~ add new note`);
   console.log(`${Bun.color("grey", "ansi")}\t$ nota later index       datetime ~ move note forward`);

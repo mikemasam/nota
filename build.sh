@@ -1,4 +1,3 @@
-bun build ./app.ts --compile --outfile nota
-chmod +w nota
+go build -o nota main.go
 cp nota ~/bin/
 source ~/.bashrc

@@ -1,6 +1,11 @@
 # NOTA
 Terminal Task manager Inspured by [tore](https://github.com/rexim/tore)
 
+# Build & install
+```bash
+bash build.sh 
+```
+
 # Commands
 ```bash
 nota v ~ version
@@ -12,3 +17,8 @@ nota del [index1,index2,index3] ~ remove note
 
 # Example
 ![nota-screenshot](https://github.com/user-attachments/assets/1c6a71c4-b2db-435b-a8a7-578801e719d3)
+
+
+# Other
+[Author](https://github.com/mikemasam)
+[Homepage](https://github.com/mikemasam/nota)

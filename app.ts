@@ -3,7 +3,7 @@ import { $ } from "bun";
 import { parseArgs } from "util";
 import os from "os";
 import { parseDateTime } from "./date-parser";
-const db: Database = new Database(`${os.homedir()}/nota.sqlite`, {
+const db: Database = new Database(`${os.homedir()}/.nota.db`, {
   create: true,
 });
 const args = Bun.argv.slice(2);

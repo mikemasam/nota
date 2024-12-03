@@ -176,9 +176,9 @@ func printReminds(db *sql.DB) {
 
 		fmt.Printf(
 			"%s%d:%s[%s]%s %s: %s%s %s%s %s\n",
-			notalib.Color("0"), i,
-			notalib.Color("248"), scheduledAt,
-			notalib.Color("0"), p.tag,
+			notalib.Color("243"), i,
+			notalib.Color("245"), scheduledAt,
+			notalib.Color("248"), p.tag,
 			notalib.Color("231"), p.title,
 			notalib.Color("0"), createdAt,
 			deletedAt,

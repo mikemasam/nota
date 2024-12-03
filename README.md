@@ -2,8 +2,8 @@
 Terminal Task manager Inspured by [tore](https://github.com/rexim/tore)
 
 # Download
-[download nota](https://github.com/mikemasam/nota/blob/master/nota0.0.1)
-[https://github.com/mikemasam/nota/blob/master/nota](https://github.com/mikemasam/nota/blob/master/nota0.0.1)
+[download nota](https://github.com/mikemasam/nota/blob/master/nota)
+[https://github.com/mikemasam/nota/blob/master/nota](https://github.com/mikemasam/nota/blob/master/nota)
 
 # Build & install
 ```bash

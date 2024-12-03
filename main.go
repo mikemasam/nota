@@ -62,7 +62,6 @@ func addRemind(db *sql.DB) {
 		end -= 1
 	}
 	remind.title = strings.Join(arr[start:end], " ")
-	fmt.Println(remind)
 
 	_, err := db.Exec("INSERT INTO reminds (tag, title, scheduled_at) VALUES(?,?,?);", remind.tag, remind.title, remind.scheduledAt)
 	if err != nil {

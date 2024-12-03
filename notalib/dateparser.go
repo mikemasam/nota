@@ -58,7 +58,7 @@ func ParseDateTime(input string) (*time.Time, string) {
 		}
 		date = _date
 	} else {
-		log.Print("no date found")
+		//log.Print("no date found")
 		return nil, input 
 	}
 

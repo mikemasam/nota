@@ -33,6 +33,9 @@ func main() {
 	case "later", "l":
 		laterRemind(db)
 		printReminds(db)
+	case "secret":
+		secretRemind(db)
+		printReminds(db)
 	case "del", "d":
 		deleteRemind(db)
 		printReminds(db)
@@ -131,6 +134,36 @@ func deleteRemind(db *sql.DB) {
 	}
 }
 
+func secretRemind(db *sql.DB) {
+	arr := os.Args[2:]
+	start := 0
+	end := len(arr)
+	reminds, err := loadReminds(db)
+	if err != nil {
+		log.Fatal(err)
+	}
+	posList := strings.Split(strings.Join(arr[start:end], ","), ",")
+	for _, p := range posList {
+		_, err := strconv.Atoi(p)
+		if err != nil {
+			log.Fatalf("Invalid index %s", p)
+		}
+	}
+	for _, p := range posList {
+		pos, _ := strconv.Atoi(p)
+		if len(reminds) < pos {
+			continue
+		}
+		remind := reminds[pos]
+		_, err := db.Exec("update reminds set priority = -1 where id = ?;", remind.id)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+
+
 type Remind struct {
 	createdAt   time.Time
 	scheduledAt *time.Time
@@ -189,7 +222,7 @@ func printReminds(db *sql.DB) {
 func printHelp() {
 	fmt.Printf(
 		`
-%sversion: v0.0.1
+%sversion: v0.0.11
 webpage: https://github.com/mikemasam/nota
 ? datetime formats: [2024-12-10+11:46/today/now/tomorrow+morning/1week/+2weeks]
 $ nota add/a/r tag description datetime ~ add new note
@@ -202,12 +235,25 @@ $ nota del/pop index           					~ remove note
 
 func loadReminds(db *sql.DB) ([]Remind, error) {
 	var reminds []Remind
-	querySQL := ""
-	if slices.Contains(os.Args, "+a") {
-		querySQL = `select id, tag, title, scheduled_at, created_at, deleted_at, (scheduled_at <= date('now', 'localtime')) as is_old from reminds order by priority desc, scheduled_at asc`
-	} else {
-		querySQL = `select id, tag, title, scheduled_at, created_at, deleted_at, (scheduled_at <= date('now', 'localtime')) as is_old from reminds where deleted_at is null order by priority desc, scheduled_at asc`
+	builder := []string{"1=1"}
+	if slices.Contains(os.Args, "+secret") {
+		builder = append(builder, `priority = -1`)
+	}else{
+		builder = append(builder, `priority != -1`)
 	}
+	if slices.Contains(os.Args, "+deleted") {
+		builder = append(builder, `deleted_at is not null`)
+	}else if slices.Contains(os.Args, "+a") {
+		builder = append(builder, `1=1`)
+	} else{
+		builder = append(builder, `deleted_at is null`)
+	}
+
+	matchIdx := slices.IndexFunc(os.Args, func(s string) bool { return strings.HasPrefix(s, ".") })
+	if(matchIdx > -1){
+		builder = append(builder, fmt.Sprintf(`title like '%%%s%%'`, os.Args[matchIdx][1:]))
+	}
+	querySQL := fmt.Sprintf("select id, tag, title, scheduled_at, created_at, deleted_at, (scheduled_at <= date('now', 'localtime')) as is_old from reminds where %s order by scheduled_at asc", strings.Join(builder, " and "))
 	rows, err := db.Query(querySQL)
 	if err != nil {
 		log.Fatal(err)

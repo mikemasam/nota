@@ -2,7 +2,7 @@
 Terminal Task manager Inspured by [tore](https://github.com/rexim/tore) written in Go
 
 # Download
-[download nota](https://github.com/mikemasam/nota/blob/master/nota)
+[download nota 0.0.11](https://github.com/mikemasam/nota/blob/master/nota)
 
 [https://github.com/mikemasam/nota/blob/master/nota](https://github.com/mikemasam/nota/blob/master/nota)
 
@@ -18,6 +18,12 @@ nota help ~ help
 nota add tag description ~ add new note 
 nota later [index1,index2,index3] tomorrow ~ change note date
 nota del [index1,index2,index3] ~ remove note 
+nota secret [index1,index2,index3] ~ hide note until, use +secret to show note
+nota ~ list notes 
+nota .youtube ~ list notes contain word youtube
+nota +deleted ~ list deleted notes
+nota +a ~ list all notes including deleted
+nota +secret ~ list hidden notes 
 ```
 
 # Example

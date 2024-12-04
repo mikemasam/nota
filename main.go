@@ -39,7 +39,7 @@ func main() {
 	case "del", "d":
 		deleteRemind(db)
 		printReminds(db)
-	case "help", "h", "version", "v":
+	case "help", "h", "version", "v", "--help", "-h", "--version", "-v":
 		printHelp()
 	default:
 		printReminds(db)

@@ -244,14 +244,14 @@ func printHelp() {
 webpage: https://github.com/mikemasam/nota
 ? datetime formats: [2024-12-10+11:46/today/now/tomorrow+morning/1week/+2weeks]
 $ nota add/a/r tag description datetime ~ add new note
-$ nota later index       			 datetime ~ move note datetime
-$ nota del index           							~ softdelete a note, use +a to all 
-$ nota secret index           					~ hide a note, use +secret to show secrets
-$ nota delelehard index           			~ delete a single note forever
-$ nota .youtube 												~ list notes contain word youtube
-$ nota +deleted 												~ list deleted notes
-$ nota +a 															~ list all notes including deleted
-$ nota +secret 													~ list secrets 
+$ nota later index datetime ~ move note datetime
+$ nota del index ~ softdelete a note, use +a to all 
+$ nota secret index ~ hide a note, use +secret to show secrets
+$ nota delelehard index ~ delete a single note forever
+$ nota .youtube ~ list notes contain word youtube
+$ nota +deleted ~ list deleted notes
+$ nota +a ~ list all notes including deleted
+$ nota +secret ~ list secrets 
 `,
 		notalib.Color("248"),
 	)

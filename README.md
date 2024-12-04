@@ -17,7 +17,8 @@ nota v ~ version
 nota help ~ help 
 nota add tag description ~ add new note 
 nota later [index1,index2,index3] tomorrow ~ change note date
-nota del [index1,index2,index3] ~ remove note 
+nota del [index1,index2,index3] ~ soft delete note, available with +a flag
+nota deletehard index ~ delete one note forever
 nota secret [index1,index2,index3] ~ hide note until, use +secret to show note
 nota ~ list notes 
 nota .youtube ~ list notes contain word youtube

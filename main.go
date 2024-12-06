@@ -240,7 +240,7 @@ func printReminds(db *sql.DB) {
 func printHelp() {
 	fmt.Printf(
 		`
-%sversion: v0.0.11
+%sversion: v0.0.12
 webpage: https://github.com/mikemasam/nota
 ? datetime formats: [2024-12-10+11:46/today/now/tomorrow+morning/1week/+2weeks]
 $ nota add/a/r tag description datetime ~ add new note
@@ -248,7 +248,8 @@ $ nota later index datetime ~ move note datetime
 $ nota del index ~ softdelete a note, use +a to all 
 $ nota secret index ~ hide a note, use +secret to show secrets
 $ nota delelehard index ~ delete a single note forever
-$ nota .youtube ~ list notes contain word youtube
+$ nota .youtube ~ list notes contain word youtube in content or tag
+$ nota /youtube ~ list notes contain word youtube in tag
 $ nota +deleted ~ list deleted notes
 $ nota +a ~ list all notes including deleted
 $ nota +secret ~ list secrets 
@@ -274,7 +275,11 @@ func loadReminds(db *sql.DB) ([]Remind, error) {
 
 	matchIdx := slices.IndexFunc(os.Args, func(s string) bool { return strings.HasPrefix(s, ".") })
 	if matchIdx > -1 {
-		builder = append(builder, fmt.Sprintf(`title like '%%%s%%'`, os.Args[matchIdx][1:]))
+		builder = append(builder, fmt.Sprintf(`(title like '%%%s%%' or tag like '%%%s%%')`, os.Args[matchIdx][1:], os.Args[matchIdx][1:]))
+	}
+	matchIdx = slices.IndexFunc(os.Args, func(s string) bool { return strings.HasPrefix(s, "/") })
+	if matchIdx > -1 {
+		builder = append(builder, fmt.Sprintf(`tag like '%%%s%%'`, os.Args[matchIdx][1:]))
 	}
 	querySQL := fmt.Sprintf("select id, tag, title, scheduled_at, created_at, deleted_at, (scheduled_at <= date('now', 'localtime')) as is_old from reminds where %s order by scheduled_at asc", strings.Join(builder, " and "))
 	rows, err := db.Query(querySQL)

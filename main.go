@@ -30,7 +30,7 @@ func main() {
 	case "add", "a":
 		addRemind(db)
 		printReminds(db)
-	case "later", "l":
+	case "later":
 		laterRemind(db)
 		printReminds(db)
 	case "secret":
@@ -194,7 +194,14 @@ type Remind struct {
 
 func printReminds(db *sql.DB) {
 	if notalib.FileExists(notalib.ResolveHomeDir(".silent")) {
-		return
+		if(len(os.Args) < 2){
+			return;
+		}
+		s := os.Args[1]
+		matchIdx := s == "show" || s == "s" || s == "l" || strings.HasPrefix(s, "/") || strings.HasPrefix(s, ".")
+		if !matchIdx {
+			return
+		}
 	}
 	reminds, err := loadReminds(db)
 	if err != nil {
@@ -240,7 +247,7 @@ func printReminds(db *sql.DB) {
 func printHelp() {
 	fmt.Printf(
 		`
-%sversion: v0.0.12
+%sversion: v0.0.13
 webpage: https://github.com/mikemasam/nota
 ? datetime formats: [2024-12-10+11:46/today/now/tomorrow+morning/1week/+2weeks]
 $ nota add/a/r tag description datetime ~ add new note

@@ -273,12 +273,13 @@ func loadReminds(db *sql.DB) ([]Remind, error) {
 	} else {
 		builder = append(builder, `priority != -1`)
 	}
+
+	if slices.Contains(os.Args, "+") {
+		builder = append(builder, `scheduled_at is null`)
+	}
 	if slices.Contains(os.Args, "+deleted") {
 		builder = append(builder, `deleted_at is not null`)
-	} else if slices.Contains(os.Args, "+") {
-		builder = append(builder, `scheduled_at is null`)
 	} else if slices.Contains(os.Args, "+a") {
-
 	} else {
 		builder = append(builder, `deleted_at is null`)
 	}

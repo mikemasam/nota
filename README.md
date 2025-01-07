@@ -2,7 +2,7 @@
 Terminal Task manager Inspured by [tore](https://github.com/rexim/tore) written in Go
 
 # Download
-[download nota 0.0.13](https://github.com/mikemasam/nota/blob/master/nota)
+[download nota 0.0.14](https://github.com/mikemasam/nota/blob/master/nota)
 
 [https://github.com/mikemasam/nota/blob/master/nota](https://github.com/mikemasam/nota/blob/master/nota)
 
@@ -25,6 +25,8 @@ nota .youtube ~ list notes contain word youtube
 nota +deleted ~ list deleted notes
 nota +a ~ list all notes including deleted
 nota +secret ~ list hidden notes 
+nota + ~ list today/current notes 
+nota ++ ~ list notes with more details
 ```
 
 # Example

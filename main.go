@@ -213,7 +213,7 @@ func printReminds(db *sql.DB) {
 
 	showEverything := slices.Contains(os.Args, "+a")
 	showCreatedAt := slices.Contains(os.Args, "+c") || showEverything
-	showMore := slices.Contains(os.Args, "+") || showCreatedAt
+	showMore := slices.Contains(os.Args, "++") || showCreatedAt
 	for i, p := range reminds {
 		scheduledAt := "*"
 		if p.scheduledAt != nil {
@@ -247,7 +247,7 @@ func printReminds(db *sql.DB) {
 func printHelp() {
 	fmt.Printf(
 		`
-%sversion: v0.0.13
+%sversion: v0.0.14
 webpage: https://github.com/mikemasam/nota
 ? datetime formats: [2024-12-10+11:46/today/now/tomorrow+morning/1week/+2weeks]
 $ nota add/a/r tag description datetime ~ add new note
@@ -275,7 +275,10 @@ func loadReminds(db *sql.DB) ([]Remind, error) {
 	}
 	if slices.Contains(os.Args, "+deleted") {
 		builder = append(builder, `deleted_at is not null`)
+	} else if slices.Contains(os.Args, "+") {
+		builder = append(builder, `scheduled_at is null`)
 	} else if slices.Contains(os.Args, "+a") {
+
 	} else {
 		builder = append(builder, `deleted_at is null`)
 	}

@@ -247,7 +247,7 @@ func printReminds(db *sql.DB) {
 func printHelp() {
 	fmt.Printf(
 		`
-%sversion: v0.0.14
+%sversion: v0.0.141
 webpage: https://github.com/mikemasam/nota
 ? datetime formats: [2024-12-10+11:46/today/now/tomorrow+morning/1week/+2weeks]
 $ nota add/a/r tag description datetime ~ add new note
@@ -292,7 +292,7 @@ func loadReminds(db *sql.DB) ([]Remind, error) {
 	if matchIdx > -1 {
 		builder = append(builder, fmt.Sprintf(`tag like '%%%s%%'`, os.Args[matchIdx][1:]))
 	}
-	querySQL := fmt.Sprintf("select id, tag, title, scheduled_at, created_at, deleted_at, (scheduled_at <= date('now', 'localtime')) as is_old from reminds where %s order by scheduled_at asc", strings.Join(builder, " and "))
+	querySQL := fmt.Sprintf("select id, tag, title, scheduled_at, created_at, deleted_at, (scheduled_at <= date('now', 'localtime')) as is_old from reminds where %s order by scheduled_at asc, tag asc ", strings.Join(builder, " and "))
 	rows, err := db.Query(querySQL)
 	if err != nil {
 		log.Fatal(err)

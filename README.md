@@ -2,7 +2,7 @@
 Terminal Task manager Inspured by [tore](https://github.com/rexim/tore) written in Go
 
 # Download
-[download nota 0.0.14](https://github.com/mikemasam/nota/blob/master/nota)
+[download nota 0.0.141](https://github.com/mikemasam/nota/blob/master/nota)
 
 [https://github.com/mikemasam/nota/blob/master/nota](https://github.com/mikemasam/nota/blob/master/nota)
 
@@ -31,6 +31,10 @@ nota ++ ~ list notes with more details
 
 # Example
 ![nota-screenshot](https://github.com/user-attachments/assets/1c6a71c4-b2db-435b-a8a7-578801e719d3)
+
+# Changelog
+## v0.0.141 
+- sort by scheduled date & tag for consistence view
 
 
 # Other

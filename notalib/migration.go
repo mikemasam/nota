@@ -18,6 +18,8 @@ func Migrate(db *sql.DB) {
         scheduled_at DATETIME NULL,
         period TEXT DEFAULT NULL,
         finished_at DATETIME DEFAULT NULL);`,
+		`ALTER TABLE reminds ADD COLUMN secret INTEGER DEFAULT 0;`,
+		`update reminds set secret = 1, priority = 0 where priority = -1;`,
 	}
 
 	var userVersion int

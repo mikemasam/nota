@@ -33,6 +33,9 @@ func main() {
 	case "later":
 		laterRemind(db)
 		printReminds(db)
+	case "move", "m":
+		moveRemind(db)
+		printReminds(db)
 	case "secret":
 		secretRemind(db)
 		printReminds(db)
@@ -109,6 +112,40 @@ func laterRemind(db *sql.DB) {
 	}
 }
 
+func moveRemind(db *sql.DB) {
+	arr := os.Args[2:]
+	last := arr[len(arr)-1]
+	newPos, err := strconv.Atoi(last)
+	start := 0
+	end := len(arr) - 1
+	if err != nil {
+		log.Fatalf("Invalid move op %s", last)
+	}
+
+	reminds, err := loadReminds(db)
+	if err != nil {
+		log.Fatal(err)
+	}
+	posList := strings.Split(strings.Join(arr[start:end], ","), ",")
+	for _, p := range posList {
+		_, err := strconv.Atoi(p)
+		if err != nil {
+			log.Fatalf("Invalid index %s", p)
+		}
+	}
+	for _, p := range posList {
+		pos, _ := strconv.Atoi(p)
+		if len(reminds) < pos {
+			continue
+		}
+		remind := reminds[pos]
+		_, err := db.Exec("update reminds set priority = ? where id = ?;", newPos, remind.id)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
 func deleteRemind(db *sql.DB) {
 	arr := os.Args[2:]
 	reminds, err := loadReminds(db)
@@ -175,7 +212,7 @@ func secretRemind(db *sql.DB) {
 			continue
 		}
 		remind := reminds[pos]
-		_, err := db.Exec("update reminds set priority = -1 where id = ?;", remind.id)
+		_, err := db.Exec("update reminds set secret = 1 where id = ?;", remind.id)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -190,12 +227,13 @@ type Remind struct {
 	tag         string
 	title       string
 	id          int
+	priority    int
 }
 
 func printReminds(db *sql.DB) {
 	if notalib.FileExists(notalib.ResolveHomeDir(".silent")) {
-		if(len(os.Args) < 2){
-			return;
+		if len(os.Args) < 2 {
+			return
 		}
 		s := os.Args[1]
 		matchIdx := s == "show" || s == "s" || s == "l" || strings.HasPrefix(s, "/") || strings.HasPrefix(s, ".")
@@ -220,8 +258,10 @@ func printReminds(db *sql.DB) {
 			if showMore {
 				scheduledAt = p.scheduledAt.Format("2006-01-02 15:04")
 			} else {
-				scheduledAt = p.scheduledAt.Format("02/01 15:04")
+				scheduledAt = p.scheduledAt.Format("02/01/06 15:04")
 			}
+		} else {
+			scheduledAt = fmt.Sprintf("%d", p.priority)
 		}
 		deletedAt := ""
 		if p.deletedAt != nil {
@@ -247,7 +287,7 @@ func printReminds(db *sql.DB) {
 func printHelp() {
 	fmt.Printf(
 		`
-%sversion: v0.0.141
+%sversion: v0.0.142
 webpage: https://github.com/mikemasam/nota
 ? datetime formats: [2024-12-10+11:46/today/now/tomorrow+morning/1week/+2weeks]
 $ nota add/a/r tag description datetime ~ add new note
@@ -269,9 +309,9 @@ func loadReminds(db *sql.DB) ([]Remind, error) {
 	var reminds []Remind
 	builder := []string{}
 	if slices.Contains(os.Args, "+secret") {
-		builder = append(builder, `priority = -1`)
+		builder = append(builder, `secret = 1`)
 	} else {
-		builder = append(builder, `priority != -1`)
+		builder = append(builder, `secret != 1`)
 	}
 
 	if slices.Contains(os.Args, "+") {
@@ -292,7 +332,7 @@ func loadReminds(db *sql.DB) ([]Remind, error) {
 	if matchIdx > -1 {
 		builder = append(builder, fmt.Sprintf(`tag like '%%%s%%'`, os.Args[matchIdx][1:]))
 	}
-	querySQL := fmt.Sprintf("select id, tag, title, scheduled_at, created_at, deleted_at, (scheduled_at <= date('now', 'localtime')) as is_old from reminds where %s order by scheduled_at asc, tag asc ", strings.Join(builder, " and "))
+	querySQL := fmt.Sprintf("select id, tag, title, scheduled_at, created_at, deleted_at, (scheduled_at <= date('now', 'localtime')) as is_old, priority from reminds where %s order by scheduled_at asc, priority asc ", strings.Join(builder, " and "))
 	rows, err := db.Query(querySQL)
 	if err != nil {
 		log.Fatal(err)
@@ -302,7 +342,7 @@ func loadReminds(db *sql.DB) ([]Remind, error) {
 
 	for rows.Next() {
 		var remind Remind
-		err = rows.Scan(&remind.id, &remind.tag, &remind.title, &remind.scheduledAt, &remind.createdAt, &remind.deletedAt, &remind.is_old)
+		err = rows.Scan(&remind.id, &remind.tag, &remind.title, &remind.scheduledAt, &remind.createdAt, &remind.deletedAt, &remind.is_old, &remind.priority)
 		if err != nil {
 			log.Fatal(err)
 			return nil, err

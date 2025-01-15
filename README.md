@@ -2,7 +2,7 @@
 Terminal Task manager Inspured by [tore](https://github.com/rexim/tore) written in Go
 
 # Download
-[download nota 0.0.141](https://github.com/mikemasam/nota/blob/master/nota)
+[download nota 0.0.142](https://github.com/mikemasam/nota/blob/master/nota)
 
 [https://github.com/mikemasam/nota/blob/master/nota](https://github.com/mikemasam/nota/blob/master/nota)
 
@@ -20,6 +20,7 @@ nota later [index1,index2,index3] tomorrow ~ change note date
 nota del [index1,index2,index3] ~ soft delete note, available with +a flag
 nota deletehard index ~ delete one note forever
 nota secret [index1,index2,index3] ~ hide note until, use +secret to show note
+nota move [index1,index2,index3] 0-9 ~ change note priority
 nota ~ list notes 
 nota .youtube ~ list notes contain word youtube
 nota +deleted ~ list deleted notes
@@ -33,6 +34,9 @@ nota ++ ~ list notes with more details
 ![nota-screenshot](https://github.com/user-attachments/assets/1c6a71c4-b2db-435b-a8a7-578801e719d3)
 
 # Changelog
+## v0.0.142
+- sort by tag removed, 
+- priority added with 'move' keyword
 ## v0.0.141 
 - sort by scheduled date & tag for consistence view
 

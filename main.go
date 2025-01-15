@@ -292,6 +292,7 @@ webpage: https://github.com/mikemasam/nota
 ? datetime formats: [2024-12-10+11:46/today/now/tomorrow+morning/1week/+2weeks]
 $ nota add/a/r tag description datetime ~ add new note
 $ nota later index datetime ~ move note datetime
+$ nota move index 0-9 ~ move note priority 
 $ nota del index ~ softdelete a note, use +a to all 
 $ nota secret index ~ hide a note, use +secret to show secrets
 $ nota delelehard index ~ delete a single note forever

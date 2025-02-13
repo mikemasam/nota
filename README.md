@@ -2,7 +2,7 @@
 Terminal Task manager Inspured by [tore](https://github.com/rexim/tore) written in Go
 
 # Download
-[download nota 0.0.142](https://github.com/mikemasam/nota/blob/master/nota)
+[download nota 0.0.143](https://github.com/mikemasam/nota/blob/master/nota)
 
 [https://github.com/mikemasam/nota/blob/master/nota](https://github.com/mikemasam/nota/blob/master/nota)
 
@@ -34,6 +34,8 @@ nota ++ ~ list notes with more details
 ![nota-screenshot](https://github.com/user-attachments/assets/1c6a71c4-b2db-435b-a8a7-578801e719d3)
 
 # Changelog
+## v0.0.143
+- + will list notes with the lowest priority 
 ## v0.0.142
 - sort by tag removed, 
 - priority added with 'move' keyword

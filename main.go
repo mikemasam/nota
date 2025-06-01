@@ -72,7 +72,7 @@ func addRemind(db *sql.DB) {
 	}
 	remind.title = strings.Join(arr[start:end], " ")
 
-	_, err := db.Exec("INSERT INTO reminds (tag, title, scheduled_at) VALUES(?,?,?);", remind.tag, remind.title, remind.scheduledAt)
+	_, err := db.Exec("INSERT INTO reminds (tag, title, scheduled_at, priority) VALUES(?,?,?, 0);", remind.tag, remind.title, remind.scheduledAt)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -287,7 +287,7 @@ func printReminds(db *sql.DB) {
 func printHelp() {
 	fmt.Printf(
 		`
-%sversion: v0.0.143
+%sversion: v0.0.144
 webpage: https://github.com/mikemasam/nota
 ? datetime formats: [2024-12-10+11:46/today/now/tomorrow+morning/1week/+2weeks]
 $ nota add/a/r tag description datetime ~ add new note
